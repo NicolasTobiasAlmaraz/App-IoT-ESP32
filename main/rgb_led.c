@@ -2,20 +2,19 @@
  * rgb_led.c
  *
  *  Created on: Oct 11, 2021
- *      Author: kjagu
+ *      Author: Nicky
  */
-
-#include "rgb_led.h"
-#include "driver/ledc.h"
 
 #include <stdbool.h>
 
+#include "driver/ledc.h"
+#include "rgb_led.h"
 
 // RGB LED Configuration Array
 ledc_info_t ledc_ch[RGB_LED_CHANNEL_NUM];
 
 // handle for rgb_led_pwm_init
-//bool g_pwm_init_handle = false;
+bool g_pwm_init_handle = false;
 
 /**
  * Initializes the RGB LED settings per channel, including
@@ -23,6 +22,8 @@ ledc_info_t ledc_ch[RGB_LED_CHANNEL_NUM];
  */
 static void rgb_led_pwm_init(void)
 {
+	int rgb_ch;
+
 	// Red
 	ledc_ch[0].channel		= LEDC_CHANNEL_0;
 	ledc_ch[0].gpio			= RGB_LED_RED_GPIO;
@@ -44,17 +45,14 @@ static void rgb_led_pwm_init(void)
 	// Configure timer zero
 	ledc_timer_config_t ledc_timer =
 	{
-		.duty_resolution	= LEDC_TIMER_8_BIT, 		//Timer de 8 bits
-		.freq_hz			= 100,						//100hz
-		.speed_mode			= LEDC_HIGH_SPEED_MODE,		//High Speed mode
-		.timer_num			= LEDC_TIMER_0				//Timer 0
+		.duty_resolution	= LEDC_TIMER_8_BIT,
+		.freq_hz			= 100,
+		.speed_mode			= LEDC_HIGH_SPEED_MODE,
+		.timer_num			= LEDC_TIMER_0
 	};
 	ledc_timer_config(&ledc_timer);
 
-	// Configure channels, es decir, pushea cada configuración de cada led.
-	// Recordemos que previamente ya asignamos un canal del periferico LEDC
-	// a cada uno de los leds
-	int rgb_ch;
+	// Configure channels
 	for (rgb_ch = 0; rgb_ch < RGB_LED_CHANNEL_NUM; rgb_ch++)
 	{
 		ledc_channel_config_t ledc_channel =
@@ -70,7 +68,7 @@ static void rgb_led_pwm_init(void)
 		ledc_channel_config(&ledc_channel);
 	}
 
-	//g_pwm_init_handle = true;
+	g_pwm_init_handle = true;
 }
 
 /**
@@ -79,52 +77,55 @@ static void rgb_led_pwm_init(void)
 static void rgb_led_set_color(uint8_t red, uint8_t green, uint8_t blue)
 {
 	// Value should be 0 - 255 for 8 bit number
-	//En mi caso le inviereto los dutys porque es anodo comun:
-	uint8_t red_inv = 255 - red;
-	uint8_t green_inv = 255 - green;
-	uint8_t blue_inv = 255 - blue;
-
-	ledc_set_duty(ledc_ch[0].mode, ledc_ch[0].channel, red_inv);
+	ledc_set_duty(ledc_ch[0].mode, ledc_ch[0].channel, red);
 	ledc_update_duty(ledc_ch[0].mode, ledc_ch[0].channel);
 
-	ledc_set_duty(ledc_ch[1].mode, ledc_ch[1].channel, green_inv);
+	ledc_set_duty(ledc_ch[1].mode, ledc_ch[1].channel, green);
 	ledc_update_duty(ledc_ch[1].mode, ledc_ch[1].channel);
 
-	ledc_set_duty(ledc_ch[2].mode, ledc_ch[2].channel, blue_inv);
+	ledc_set_duty(ledc_ch[2].mode, ledc_ch[2].channel, blue);
 	ledc_update_duty(ledc_ch[2].mode, ledc_ch[2].channel);
 }
 
 void rgb_led_wifi_app_started(void)
 {
+	if (g_pwm_init_handle == false)
+	{
+		rgb_led_pwm_init();
+	}
+
 	rgb_led_set_color(255, 102, 255);
 }
 
 void rgb_led_http_server_started(void)
 {
+	if (g_pwm_init_handle == false)
+	{
+		rgb_led_pwm_init();
+	}
+
 	rgb_led_set_color(204, 255, 51);
 }
 
 
 void rgb_led_wifi_connected(void)
 {
+	if (g_pwm_init_handle == false)
+	{
+		rgb_led_pwm_init();
+	}
+
 	rgb_led_set_color(0, 255, 153);
 }
 
-void leds_test() {
-	rgb_led_pwm_init();
-	while(1) {
-		rgb_led_wifi_app_started();
-		vTaskDelay(1000 / portTICK_PERIOD_MS);
-		rgb_led_http_server_started();
-		vTaskDelay(1000 / portTICK_PERIOD_MS);
-		rgb_led_wifi_connected();
-		vTaskDelay(1000 / portTICK_PERIOD_MS);
-	}
-}
 
-void task_control_leds() {
-    xTaskCreate(leds_test, "leds_test", configMINIMAL_STACK_SIZE * 4, NULL, 5, NULL);
-}
+
+
+
+
+
+
+
 
 
 
