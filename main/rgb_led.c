@@ -5,16 +5,17 @@
  *      Author: kjagu
  */
 
+#include "rgb_led.h"
+#include "driver/ledc.h"
+
 #include <stdbool.h>
 
-#include "driver/ledc.h"
-#include "rgb_led.h"
 
 // RGB LED Configuration Array
 ledc_info_t ledc_ch[RGB_LED_CHANNEL_NUM];
 
 // handle for rgb_led_pwm_init
-bool g_pwm_init_handle = false;
+//bool g_pwm_init_handle = false;
 
 /**
  * Initializes the RGB LED settings per channel, including
@@ -69,7 +70,7 @@ static void rgb_led_pwm_init(void)
 		ledc_channel_config(&ledc_channel);
 	}
 
-	g_pwm_init_handle = true;
+	//g_pwm_init_handle = true;
 }
 
 /**
@@ -95,43 +96,35 @@ static void rgb_led_set_color(uint8_t red, uint8_t green, uint8_t blue)
 
 void rgb_led_wifi_app_started(void)
 {
-	if (g_pwm_init_handle == false)
-	{
-		rgb_led_pwm_init();
-	}
-
 	rgb_led_set_color(255, 102, 255);
 }
 
 void rgb_led_http_server_started(void)
 {
-	if (g_pwm_init_handle == false)
-	{
-		rgb_led_pwm_init();
-	}
-
 	rgb_led_set_color(204, 255, 51);
 }
 
 
 void rgb_led_wifi_connected(void)
 {
-	if (g_pwm_init_handle == false)
-	{
-		rgb_led_pwm_init();
-	}
-
 	rgb_led_set_color(0, 255, 153);
 }
 
+void leds_test() {
+	rgb_led_pwm_init();
+	while(1) {
+		rgb_led_wifi_app_started();
+		vTaskDelay(1000 / portTICK_PERIOD_MS);
+		rgb_led_http_server_started();
+		vTaskDelay(1000 / portTICK_PERIOD_MS);
+		rgb_led_wifi_connected();
+		vTaskDelay(1000 / portTICK_PERIOD_MS);
+	}
+}
 
-
-
-
-
-
-
-
+void task_control_leds() {
+    xTaskCreate(leds_test, "leds_test", configMINIMAL_STACK_SIZE * 4, NULL, 5, NULL);
+}
 
 
 

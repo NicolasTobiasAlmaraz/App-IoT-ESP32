@@ -14,6 +14,14 @@
 #ifndef MAIN_RGB_LED_H_
 #define MAIN_RGB_LED_H_
 
+#include "freertos/FreeRTOS.h"
+#include "esp_wifi.h"
+#include "esp_system.h"
+#include "esp_event.h"
+#include "esp_event_loop.h"
+#include "nvs_flash.h"
+#include "driver/gpio.h"
+
 // RGB LED GPIOs
 #define RGB_LED_RED_GPIO		21
 #define RGB_LED_GREEN_GPIO		19
@@ -35,16 +43,24 @@ typedef struct
 /**
  * Color to indicate WiFi application has started.
  */
-void rgb_led_wifi_app_started(void);
+static void rgb_led_wifi_app_started(void);
 
 /**
  * Color to indicate HTTP server has started.
  */
-void rgb_led_http_server_started(void);
+static void rgb_led_http_server_started(void);
 
 /**
  * Color to indicate that the ESP32 is connected to an access point.
  */
-void rgb_led_wifi_connected(void);
+static void rgb_led_wifi_connected(void);
+
+
+/**
+ * Test task: This task switches the leds
+ */
+void leds_test();
+
+void task_control_leds();
 
 #endif /* MAIN_RGB_LED_H_ */
