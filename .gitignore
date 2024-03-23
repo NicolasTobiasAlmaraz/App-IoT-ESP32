@@ -1,1 +1,4 @@
 build/
+.cproject
+dskconfig.old
+.settings/
