@@ -9,6 +9,7 @@ var otaTimerVar =  null;
  */
 $(document).ready(function(){
 	getUpdateStatus();
+    startSensorInterval();
 });   
 
 /**
@@ -116,4 +117,18 @@ function otaRebootTimer()
     }
 }
 
+/**
+ * Tomar la temperatura del sensor DS18B20 para luego mostrar en la web page
+ */
+function getSensorValue() {
+    $.getJSON('/sensor.json', function(data) {
+        $("#temperature_reading").text(data["temp"]);
+    });
+}
 
+/**
+ * Timer para pedir data cada 5 seg
+ */
+function startSensorInterval() {
+    setInterval(getSensorValue, 5000);
+}
