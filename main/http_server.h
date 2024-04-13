@@ -12,6 +12,21 @@
 #define OTA_UPDATE_SUCCESSFUL	1
 #define OTA_UPDATE_FAILED		-1
 
+#define MAX_WIFI_SSID			32
+#define MAX_WIFI_PASS			64
+
+/***
+ * Connection status for wifi
+ */
+typedef enum http_server_wifi_connect_status
+{
+	NONE = 0,
+	HTTP_WIFI_STATUS_CONNECTING,
+	HTTP_WIFI_STATUS_SUCCESS,
+	HTTP_WIFI_STATUS_FAILED
+} http_server_wifi_connect_status_e;
+
+
 /**
  * Messages for the HTTP monitor
  */
