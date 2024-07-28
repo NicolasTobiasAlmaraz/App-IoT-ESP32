@@ -1,11 +1,23 @@
-ESP-IDF template app
-====================
+# App-IoT-ESP32
+En este proyecto hice una app básica IoT con ESP32 donde intento probar varias funcionalidades.
 
-This is a template application to be used with [Espressif IoT Development Framework](https://github.com/espressif/esp-idf).
+## Objetivos
+- Aprender a utilizar correctamente el ESP32
+- Programar un dispositivo IoT que continuamente mida la señal de un sensor de temperatura
+- Programar una red wifi (AP/STA) de tal forma que el ESP32 pueda conectarse a una red wifi y además generar una red wifi propia simultáneamente
+- Programar un web-server HTTP con protocolo TCP/IP que  se comunique con mensajes .json
+- Programar una interfaz de usuario WLAN haciendo una página web (HTML, CSS, JS)
+- Presentar en esta UI el valor de la temperatura sensada
+- Presentar en esta UI un espacio para que el usuario ingrese las credenciales (SSID/psw) de una red wifi a la que nos vamos a conectar
+- Presentar en esta UI un espacio para hacer un OTA firmware update (actualización de fiurmware via WiFi)
+  
+- (pendiente1) - conectar a este sistema embebido con un servidor corriendo en otra parte (Por ejemplo en una PC)
+- (pendiente2) - Programar una app de celular que se comunique con el servidor (PC) y visualice lo que el dispositivo IoT está sensando
 
-Please check [ESP-IDF docs](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html) for getting started instructions.
+## Estructura de los códigos fuente
+Pendiente
 
-*Code in this repository is in the Public Domain (or CC0 licensed, at your option.)
-Unless required by applicable law or agreed to in writing, this
-software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-CONDITIONS OF ANY KIND, either express or implied.*
+## APIs
+Pendiente
+
+## Diagrama en bloques del Hw:
