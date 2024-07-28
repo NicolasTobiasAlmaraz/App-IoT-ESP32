@@ -9,10 +9,10 @@ En este proyecto hice una app básica IoT con ESP32 donde intento probar varias 
 - Programar una interfaz de usuario WLAN haciendo una página web (HTML, CSS, JS)
 - Presentar en esta UI el valor de la temperatura sensada
 - Presentar en esta UI un espacio para que el usuario ingrese las credenciales (SSID/psw) de una red wifi a la que nos vamos a conectar
-- Presentar en esta UI un espacio para hacer un OTA firmware update (actualización de fiurmware via WiFi)
-  
-- (pendiente1) - conectar a este sistema embebido con un servidor corriendo en otra parte (Por ejemplo en una PC)
-- (pendiente2) - Programar una app de celular que se comunique con el servidor (PC) y visualice lo que el dispositivo IoT está sensando
+- Utilizar NVS (Non volatile storage) para persistencia
+- Presentar en esta UI un espacio para hacer un OTA firmware update (actualización de fiurmware via WiFi) 
+- Pendiente1 - conectar a este sistema embebido con un servidor corriendo en otra parte (Por ejemplo en una PC)
+- Pendiente2 - Programar una app de celular que se comunique con el servidor (PC) y visualice lo que el dispositivo IoT está sensando
 
 ## Estructura de los códigos fuente
 Pendiente
